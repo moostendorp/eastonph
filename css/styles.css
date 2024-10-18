@@ -150,6 +150,7 @@ body {
     text-align: center; /* Center text */
     margin-bottom: 20px; /* Space between boxes */
     transition: transform 0.2s; /* Animation for hover effect */
+    
 }
 
 .service:hover {
@@ -182,7 +183,7 @@ body {
 .service p {
     font-size: 1rem;
     color: #555;
-
+    text-align: justify;
 }
 
 .learn-more-button {
