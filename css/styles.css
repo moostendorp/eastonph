@@ -15,8 +15,9 @@ body {
 
 .container {
    
-    margin: 0 auto;  /* Centers the content horizontally */
-    
+    margin-left: 100px;  /* Centers the content horizontally */
+    margin-right: 100px;    
+   
     text-align: left;  /* Keeps the text left-aligned */
     
     
@@ -26,7 +27,7 @@ body {
 /* Header with Logo */
 .main-header {
     background-color: white;
-    padding: 1rem;
+    margin: 20px;
     text-align: center;
 }
 
@@ -34,21 +35,6 @@ body {
     max-width: 150px;
 }
 
-/* Hero Section */
-
-.transfer-hero
- {
-    background: url('../TCTsample.jpg') no-repeat center center/cover;
-    height: 60vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    text-align: center;
-    padding: 0 1rem;
-    position: relative;
-    z-index: 1;
-}
 
 
 /* Hero Section Styling with CSS Grid */
@@ -295,7 +281,7 @@ input:focus, textarea:focus {
     background-color: #172365;  /* Dark background */
  
     color: white;  /* White text */
-    padding: 30px 0;
+   
     text-align: center;
     font-size: 1em;
 }
@@ -306,12 +292,9 @@ input:focus, textarea:focus {
     align-items: center;
     justify-content: center;
     max-width: 800px;
-    margin: 0 auto;
+    margin: 0    auto;
 }
 
-.footer-links {
-    margin-bottom: 20px;
-}
 
 .footer-links a {
     color: #f8f9fa;  /* Light color for links */
@@ -325,24 +308,14 @@ input:focus, textarea:focus {
 }
 
 .footer-contact {
-    margin: 20px 0;
+    margin: 10px 0;
 }
 
 .footer-contact .contact-info-image {
     width: 300px;  /* Placeholder for rectangular image */
     height: auto;
-    display: block;
-    margin: 0 auto;
-}
-
-.footer-license p {
-    margin: 5px 0;
-    font-size: 0.9em;
-    font-weight: bold;
-}
-
-.footer-license strong {
-    color: #f8f9fa;  /* Highlight license numbers */
+    display:flex    ;
+    margin: 0;
 }
 
 
