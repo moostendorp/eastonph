@@ -314,7 +314,7 @@ input:focus, textarea:focus {
 }
 
 .footer-contact {
-    margin: 10px 0;
+    margin: 0 0;
 }
 
 .footer-contact .contact-info-image {
@@ -386,6 +386,35 @@ hr {
     background-color: #128C7E;
   }
   
+  .share-buttons {
+    margin-top: 20px;
+}
+
+.share-buttons p {
+    font-weight: bold;
+}
+
+.share-buttons a {
+    text-decoration: none;
+    color: #0056b3;
+    margin-right: 10px;
+    font-size: 0.9em;
+    display: inline-flex;
+    align-items: center;
+}
+
+.share-buttons a i {
+    margin-right: 5px;
+    font-size: 1.2em;
+}
+
+.share-buttons a:hover {
+    text-decoration: underline;
+}
+
+
+
+
  /* Responsive Design */
  /* Target iPads in both portrait and landscape modes */
 @media only screen and (min-width:  820px) and (max-width: 1024px) {
@@ -431,4 +460,33 @@ hr {
     .hero-right {
         display: none; /* Hide the right column on smaller screens */
     }
+
+    .container {
+   
+        margin-left: 10px;  /* Centers the content horizontally */
+        margin-right: 10px;    
+       
+        
+        
+        
+    }
+.standard h1 {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+
+}
+
+.standard h2 {
+    font-size: 1.25rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.standard p {
+    font-size: 1rem;
+    text-align: justify;
+    margin-bottom: 1.25rem;
+
+}
 }
