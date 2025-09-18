@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Time Elapsed Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: 20px auto;
+      padding: 15px;
+      background-color: #f5f5f5;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    input[type="time"] {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    #resetBtn {
+      background-color: #6c757d;
+      margin-top: 5px;
+    }
+
+    #resetBtn:hover {
+      background-color: #5a6268;
+    }
+
+    .result {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #e8f5e8;
+      border-left: 4px solid #28a745;
+      border-radius: 5px;
+      display: none;
+    }
+
+    .result h3 {
+      margin-top: 0;
+      color: #155724;
+    }
+
+    .time-info {
+      margin: 10px 0;
+      color: #333;
+    }
+
+    .elapsed {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #007bff;
+      word-wrap: break-word;
+    }
+
+    #currentDateDisplay {
+      padding: 10px;
+      background-color: #f8f9fa;
+      border: 2px solid #e9ecef;
+      border-radius: 5px;
+      font-weight: bold;
+      color: #495057;
+      word-wrap: break-word;
+      font-size: 0.95em;
+    }
+
+    /* About section */
+    .about-section {
+      margin-top: 40px;
+      padding: 25px;
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      border-radius: 10px;
+      border-left: 4px solid #007bff;
+    }
+
+    .about-title-link {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .about-title-link:hover {
+      text-decoration: underline;
+    }
+
+    .about-content {
+      color: #6c757d;
+      line-height: 1.6;
+      font-size: 0.95em;
+      margin-top: 15px;
+      display: none;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+    }
+
+    .about-content.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .signature {
+      display: none;
+      margin-top: 15px;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .signature.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .signature-text {
+      font-family: 'Brush Script MT', 'Lucida Handwriting', cursive;
+      font-size: 1.1em;
+      color: #495057;
+      font-style: italic;
+    }
+
+    /* Services section */
+    .services-section {
+      margin-top: 40px;
+      padding-top: 30px;
+      border-top: 2px solid #e9ecef;
+    }
+
+    .services-title {
+      text-align: center;
+      color: #6c757d;
+      margin-bottom: 25px;
+      font-size: 1.1em;
+      font-weight: bold;
+    }
+
+    .services-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .service-card {
+      background: white;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+
+    .service-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      border-color: #007bff;
+    }
+
+    .brand-logo {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+
+    .service-title {
+      font-size: 1.3em;
+      font-weight: bold;
+      color: #007bff;
+      margin-bottom: 8px;
+    }
+
+    .service-description {
+      color: #6c757d;
+      font-size: 0.9em;
+      line-height: 1.4;
+      margin-bottom: 15px;
+    }
+
+    .service-link {
+      color: #28a745;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 0.95em;
+    }
+
+    .service-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>⏱️ Time Elapsed Calculator</h1>
+
+    <div class="input-group">
+      <label for="currentDate">Current Date:</label>
+      <div id="currentDateDisplay"></div>
+    </div>
+
+    <div class="input-group">
+      <label for="startTime">Enter Starting Time:</label>
+      <input type="time" id="startTime" required>
+    </div>
+
+    <button id="calculateBtn">Calculate Elapsed Time</button>
+    <button id="resetBtn">Reset Starting Time</button>
+
+    <div class="result" id="result">
+      <h3>Time Calculation Results</h3>
+      <div class="time-info"><strong>Start Time:</strong> <span id="displayStartTime"></span></div>
+      <div class="time-info"><strong>Current Time:</strong> <span id="displayCurrentTime"></span></div>
+      <div class="time-info"><strong>Current Date:</strong> <span id="displayCurrentDate"></span></div>
+      <div class="elapsed"><strong>Time Elapsed:</strong> <span id="elapsedTime"></span></div>
+    </div>
+
+    <!-- About Section -->
+    <div class="about-section">
+      <a href="#" class="about-title-link" onclick="toggleAbout(event)">Why I made this calculator</a>
+      <div class="about-content" id="aboutContent">
+        <p>I once got overcharged at Festival Mall when a parking attendant “miscalculated” my stay. Rushed and unable to argue, I paid more than I should have. That moment made me realize how easy it is to be taken advantage of, so I built this simple time tracker. Now I can always check the exact hours and minutes myself—no more convenient miscalculations.</p>
+      </div>
+      <div class="signature" id="signature">
+        <span class="signature-text">Melissa Oostendorp</span>
+      </div>
+    </div>
+
+    <!-- Real Estate Services Section -->
+    <div class="services-section">
+      <div class="services-title">Explore Our Real Estate Services</div>
+
+
+      <div class="services-container">
+
+        <div class="service-card" onclick="window.open('http://bfhomes.ph/listings/PARKLANE-PER/','_blank','noopener')">
+          <div class="brand-logo">
+                            <img src="./logo_bfhomes.png" alt="bfhomes.ph Logo">
+                      </div>
+          <div class="service-title">House for Sale – BF Homes</div>
+          <div class="service-description">
+            Explore this featured property in Parklane, BF Homes Parañaque. See full details and photos.
+          </div>
+          <a href="http://bfhomes.ph/listings/PARKLANE-PER/" target="_blank" rel="noopener noreferrer" class="service-link" onclick="event.stopPropagation()">
+            View Listing
+          </a>
+        </div>
+
+        <div class="service-card" onclick="window.open('https://appraise.ph','_blank','noopener')">
+          <div class="brand-logo">
+            <img src="https://appraise.ph/images/logo100.jpg" alt="Appraise.ph Logo">
+          </div>
+          <div class="service-title">Appraise.ph</div>
+          <div class="service-description">Professional property appraisal services in the Philippines.</div>
+          <a href="https://appraise.ph" target="_blank" rel="noopener noreferrer" class="service-link" onclick="event.stopPropagation()">Visit appraise.ph</a>
+        </div>
+
+        <div class="service-card" onclick="window.open('https://easton.ph','_blank','noopener')">
+          <div class="brand-logo">
+            <img src="https://easton.ph/logos_eastonrecon.png" alt="Easton.ph Logo">
+          </div>
+          <div class="service-title">Easton.ph</div>
+          <div class="service-description">Your trusted real estate partner.</div>
+          <a href="https://easton.ph" target="_blank" rel="noopener noreferrer" class="service-link" onclick="event.stopPropagation()">Visit easton.ph</a>
+        </div>
+
+        <div class="service-card" onclick="window.open('https://titles.ph','_blank','noopener')">
+          <div class="brand-logo">
+            <img src="https://titles.ph/logo-titlesph.jpg" alt="Titles.ph Logo">
+          </div>
+          <div class="service-title">Titles.ph</div>
+          <div class="service-description">Simplify your property title processes.</div>
+          <a href="https://titles.ph" target="_blank" rel="noopener noreferrer" class="service-link" onclick="event.stopPropagation()">Visit titles.ph</a>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function updateCurrentDate() {
+      const now = new Date();
+      const options = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
+      document.getElementById('currentDateDisplay').textContent = now.toLocaleDateString('en-US', options);
+    }
+    updateCurrentDate();
+
+    document.getElementById('calculateBtn').addEventListener('click', function() {
+      const startTimeInput = document.getElementById('startTime').value;
+      if (!startTimeInput) { alert('Please enter a starting time!'); return; }
+
+      const now = new Date();
+      const currentDate = now.toLocaleDateString();
+      const currentTime = now.toLocaleTimeString([], {hour:'numeric',minute:'2-digit',hour12:true});
+
+      const today = new Date();
+      const [startHours, startMinutes] = startTimeInput.split(':');
+      const startDateTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), parseInt(startHours), parseInt(startMinutes));
+
+      let timeDiff = now - startDateTime;
+      if (timeDiff < 0) timeDiff += 24 * 60 * 60 * 1000;
+
+      const totalMinutes = Math.floor(timeDiff / (1000 * 60));
+      const hours = Math.floor(totalMinutes / 60);
+      const minutes = totalMinutes % 60;
+
+      document.getElementById('displayStartTime').textContent = formatTime12Hour(startHours, startMinutes);
+      document.getElementById('displayCurrentTime').textContent = currentTime;
+      document.getElementById('displayCurrentDate').textContent = currentDate;
+      document.getElementById('elapsedTime').textContent = `${hours} hours and ${minutes} minutes`;
+
+      document.getElementById('result').style.display = 'block';
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', function() {
+      document.getElementById('startTime').value = '';
+      document.getElementById('result').style.display = 'none';
+      updateCurrentDate();
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('aboutContent').classList.remove('show');
+      document.getElementById('signature').classList.remove('show');
+    });
+
+    function toggleAbout(event) {
+      event.preventDefault();
+      const content = document.getElementById('aboutContent');
+      const signature = document.getElementById('signature');
+      if (content.classList.contains('show')) {
+        content.classList.remove('show');
+        signature.classList.remove('show');
+        setTimeout(() => {
+          content.style.display = 'none';
+          signature.style.display = 'none';
+        }, 300);
+      } else {
+        content.style.display = 'block';
+        signature.style.display = 'block';
+        setTimeout(() => {
+          content.classList.add('show');
+          signature.classList.add('show');
+        }, 10);
+      }
+    }
+
+    function formatTime12Hour(hours, minutes) {
+      const hour = parseInt(hours);
+      const ampm = hour >= 12 ? 'PM' : 'AM';
+      const displayHour = hour % 12 || 12;
+      return `${displayHour}:${minutes.padStart(2, '0')} ${ampm}`;
+    }
+  </script>
+</body>
+</html>
