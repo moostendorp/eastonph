@@ -18,6 +18,7 @@
     .result { margin-top: 20px; padding: 15px; border-left: 4px solid #28a745; background: #e8f5e8; border-radius: 5px; display: none; }
     .fee { font-weight: bold; color: #007bff; }
     .advanced { display: none; margin-top: 15px; padding: 10px; border: 1px dashed #aaa; border-radius: 5px; }
+    .timezone-info { margin-top: 10px; padding: 10px; background: #f8f9fa; border-radius: 5px; font-size: 0.9rem; color: #6c757d; text-align: center; }
     .about-section { margin-top: 40px; padding: 20px; background: linear-gradient(135deg,#f8f9fa,#e9ecef); border-radius: 10px; border-left: 4px solid #007bff; }
     .about-title-link { color: #007bff; font-weight: bold; text-decoration: none; cursor: pointer; }
     .about-title-link:hover { text-decoration: underline; }
@@ -51,9 +52,10 @@
 </head>
 <body>
   <div class="container">
-    <h1>⏱️ Time & Parking Fee Calculator</h1>
+    <h1>⏰ Time & Parking Fee Calculator</h1>
     <div class="input-group"><label for="startDate">Enter Date:</label><input type="date" id="startDate" required></div>
     <div class="input-group"><label for="startTime">Enter Starting Time:</label><input type="time" id="startTime" required></div>
+    <div class="timezone-info" id="timezoneInfo">Using your local timezone</div>
     <button id="calculateBtn">Calculate</button>
     <button id="resetBtn" style="background:#6c757d;">Reset</button>
     <button class="toggle-btn" id="toggleAdvanced">Show Fee Options</button>
@@ -74,8 +76,8 @@
     <div class="about-section">
       <a href="#" class="about-title-link" onclick="toggleAbout(event)">Why I made this calculator</a>
       <div class="about-content" id="aboutContent">
-        <p>I once got overcharged at Festival Mall when a parking attendant “miscalculated” my stay...</p>
-        <p>If you’ve had a similar experience, I’d appreciate your feedback.</p>
+        <p>I once got overcharged at Festival Mall when a parking attendant "miscalculated" my stay...</p>
+        <p>If you've had a similar experience, I'd appreciate your feedback.</p>
         <a href="https://m.me/melissa.magpale.oostendorp" target="_blank" class="fb-link">💬 Message me on Messenger</a>
       </div>
       <div class="signature" id="signature"><span class="signature-text">Melissa Oostendorp</span></div>
@@ -83,7 +85,7 @@
     <div class="services-section">
       <div class="services-title">Explore Our Real Estate Services</div>
       <div class="services-container">
-        <div class="service-card" onclick="window.open('http://bfhomes.ph/listings/PARKLANE-PER/','_blank')"><div class="brand-logo"><img src="./icon_property_recon.jpg" alt="bfhomes.ph Logo"></div><div class="service-title">House for Sale – BF Homes</div><div class="service-description">Featured property in Parklane, BF Homes Parañaque.</div></div>
+        <div class="service-card" onclick="window.open('http://bfhomes.ph/listings/PARKLANE-PER/','_blank')"><div class="brand-logo"><img src="./icon_property_recon.jpg" alt="bfhomes.ph Logo"></div><div class="service-title">House for Sale — BF Homes</div><div class="service-description">Featured property in Parklane, BF Homes Parañaque.</div></div>
         <div class="service-card" onclick="window.open('https://appraise.ph','_blank')"><div class="brand-logo"><img src="https://appraise.ph/images/logo100.jpg" alt="Appraise.ph"></div><div class="service-title">Appraise.ph</div><div class="service-description">Professional property appraisal services.</div></div>
         <div class="service-card" onclick="window.open('https://easton.ph','_blank')"><div class="brand-logo"><img src="https://easton.ph/logos_eastonrecon.png" alt="Easton.ph"></div><div class="service-title">Easton.ph</div><div class="service-description">Your trusted real estate partner.</div></div>
         <div class="service-card" onclick="window.open('https://titles.ph','_blank')"><div class="brand-logo"><img src="https://titles.ph/logo-titlesph.jpg" alt="Titles.ph"></div><div class="service-title">Titles.ph</div><div class="service-description">Simplify property title processes.</div></div>
@@ -92,63 +94,104 @@
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      // Set current local date and display timezone info
       const now = new Date();
-      document.getElementById('startDate').value = now.toISOString().split('T')[0];
+      const year = now.getFullYear();
+      const month = (now.getMonth() + 1).toString().padStart(2, '0');
+      const day = now.getDate().toString().padStart(2, '0');
+      document.getElementById('startDate').value = `${year}-${month}-${day}`;
+      
+      // Display timezone information
+      const timezoneName = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const timezoneOffset = -now.getTimezoneOffset() / 60;
+      const offsetSign = timezoneOffset >= 0 ? '+' : '';
+      document.getElementById('timezoneInfo').textContent = 
+        `Using your local timezone: ${timezoneName} (UTC${offsetSign}${timezoneOffset})`;
     });
+
     document.getElementById('calculateBtn').onclick = function() {
       const startDate = document.getElementById('startDate').value;
       const startTime = document.getElementById('startTime').value;
-      if (!startDate || !startTime) { alert("Enter date and time"); return; }
+      
+      if (!startDate || !startTime) { 
+        alert("Please enter both date and time"); 
+        return; 
+      }
+
+      // Create start datetime using local timezone
+      const startDateTime = new Date(`${startDate}T${startTime}:00`);
       const now = new Date();
-      const [h, m] = startTime.split(":");
-      const [y, mo, d] = startDate.split("-");
-      const start = new Date(y, mo-1, d, h, m);
-      let diff = now - start;
-      if (diff < 0) diff += 24*60*60*1000;
-      const mins = Math.floor(diff/60000);
-      const hrs = Math.floor(mins/60);
-      const rem = mins % 60;
-      document.getElementById('displayDate').textContent = startDate;
-      document.getElementById('displayStart').textContent = formatTime(start);
-      document.getElementById('displayNow').textContent = now.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
-      document.getElementById('elapsed').textContent = `${hrs}h ${rem}m`;
-      const adv = document.getElementById('advancedOptions');
-      if (adv.style.display === 'block') {
-        const fh = +document.getElementById('firstHours').value;
-        const fp = +document.getElementById('firstPrice').value;
-        const sh = +document.getElementById('succeedingHours').value;
-        const sp = +document.getElementById('succeedingPrice').value;
-        let fee = fp;
-        if (hrs >= fh || (hrs === fh && rem > 0)) {
-          const extra = mins - fh*60;
-          const blocks = Math.ceil(extra/(sh*60));
-          fee += blocks*sp;
+      
+      // Calculate time difference in milliseconds
+      let timeDiff = now.getTime() - startDateTime.getTime();
+      
+      // Handle case where start time is in the future (same day)
+      if (timeDiff < 0) {
+        alert("Start time cannot be in the future!");
+        return;
+      }
+      
+      // Convert to minutes and calculate hours/minutes
+      const totalMinutes = Math.floor(timeDiff / (1000 * 60));
+      const hours = Math.floor(totalMinutes / 60);
+      const minutes = totalMinutes % 60;
+      
+      // Update display with local time formatting
+      document.getElementById('displayDate').textContent = startDateTime.toLocaleDateString();
+      document.getElementById('displayStart').textContent = formatTimeLocal(startDateTime);
+      document.getElementById('displayNow').textContent = formatTimeLocal(now);
+      document.getElementById('elapsed').textContent = `${hours}h ${minutes}m`;
+      
+      // Calculate fee if advanced options are shown
+      const advancedOptions = document.getElementById('advancedOptions');
+      if (advancedOptions.style.display === 'block') {
+        const firstHours = parseInt(document.getElementById('firstHours').value) || 3;
+        const firstPrice = parseFloat(document.getElementById('firstPrice').value) || 50;
+        const succeedingHours = parseInt(document.getElementById('succeedingHours').value) || 1;
+        const succeedingPrice = parseFloat(document.getElementById('succeedingPrice').value) || 20;
+        
+        let totalFee = firstPrice;
+        
+        // Calculate additional fee if time exceeds first block
+        if (totalMinutes > firstHours * 60) {
+          const extraMinutes = totalMinutes - (firstHours * 60);
+          const additionalBlocks = Math.ceil(extraMinutes / (succeedingHours * 60));
+          totalFee += additionalBlocks * succeedingPrice;
         }
-        document.getElementById('fee').textContent = fee.toFixed(2);
+        
+        document.getElementById('fee').textContent = totalFee.toFixed(2);
         document.getElementById('feeRow').style.display = 'block';
       } else {
         document.getElementById('feeRow').style.display = 'none';
       }
+      
       document.getElementById('result').style.display = 'block';
     };
+
     document.getElementById('resetBtn').onclick = function() {
       document.getElementById('startTime').value = "";
       document.getElementById('result').style.display = 'none';
     };
+
     document.getElementById('toggleAdvanced').onclick = function() {
-      const adv = document.getElementById('advancedOptions');
-      adv.style.display = adv.style.display === 'block' ? 'none' : 'block';
-      this.textContent = adv.style.display === 'block' ? "Hide Fee Options" : "Show Fee Options";
+      const advancedOptions = document.getElementById('advancedOptions');
+      const isVisible = advancedOptions.style.display === 'block';
+      advancedOptions.style.display = isVisible ? 'none' : 'block';
+      this.textContent = isVisible ? "Show Fee Options" : "Hide Fee Options";
     };
+
     function toggleAbout(e) {
       e.preventDefault();
       document.getElementById('aboutContent').classList.toggle('show');
       document.getElementById('signature').classList.toggle('show');
     }
-    function formatTime(d) {
-      const h = d.getHours(), m = d.getMinutes().toString().padStart(2,"0");
-      const ampm = h>=12?"PM":"AM"; const dh=(h%12)||12;
-      return `${dh}:${m} ${ampm}`;
+
+    function formatTimeLocal(date) {
+      return date.toLocaleTimeString([], {
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      });
     }
   </script>
 </body>
