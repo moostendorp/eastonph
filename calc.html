@@ -5,86 +5,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Time & Parking Fee Calculator</title>
   <style>
-    body { font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; padding: 15px; background: #f5f5f5; }
-    .container { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-    h1 { text-align: center; margin-bottom: 20px; }
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 4vw; background: #f5f5f5; }
+    .container { background: white; padding: 5vw; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    h1 { text-align: center; margin-bottom: 20px; font-size: 1.6rem; }
     .input-group { margin-bottom: 15px; }
-    label { display: block; font-weight: bold; margin-bottom: 5px; }
-    input { width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; }
-    button { width: 100%; padding: 12px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+    label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 0.9rem; }
+    input, button { width: 100%; font-size: 1rem; padding: 0.8em; border: 2px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+    button { background: #007bff; color: white; border: none; cursor: pointer; margin-top: 0.6em; }
     button:hover { background: #0056b3; }
-    .toggle-btn { background: #28a745; margin-top: 15px; }
+    .toggle-btn { background: #28a745; }
     .toggle-btn:hover { background: #1e7e34; }
     .result { margin-top: 20px; padding: 15px; border-left: 4px solid #28a745; background: #e8f5e8; border-radius: 5px; display: none; }
-    .result h3 { margin-top: 0; }
     .fee { font-weight: bold; color: #007bff; }
     .advanced { display: none; margin-top: 15px; padding: 10px; border: 1px dashed #aaa; border-radius: 5px; }
-
-    /* About section */
     .about-section { margin-top: 40px; padding: 20px; background: linear-gradient(135deg,#f8f9fa,#e9ecef); border-radius: 10px; border-left: 4px solid #007bff; }
-    .about-title-link { color: #007bff; text-decoration: none; font-weight: bold; cursor: pointer; }
+    .about-title-link { color: #007bff; font-weight: bold; text-decoration: none; cursor: pointer; }
     .about-title-link:hover { text-decoration: underline; }
-    .about-content { display: none; margin-top: 15px; color: #555; line-height: 1.6; }
+    .about-content { display: none; margin-top: 15px; color: #555; line-height: 1.6; font-size: 0.95rem; }
     .about-content.show { display: block; }
     .signature { display: none; margin-top: 15px; text-align: center; }
     .signature.show { display: block; }
     .signature-text { font-family: 'Brush Script MT', cursive; font-size: 1.1em; color: #495057; font-style: italic; }
-
     .fb-link { display: inline-block; background: #1877f2; color: white; padding: 10px 16px; border-radius: 6px; font-weight: bold; text-decoration: none; margin-top: 10px; }
     .fb-link:hover { background: #0d6efd; }
-
-    /* Services section */
     .services-section { margin-top: 40px; padding-top: 30px; border-top: 2px solid #e9ecef; }
     .services-title { text-align: center; color: #6c757d; margin-bottom: 25px; font-size: 1.1em; font-weight: bold; }
-    .services-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; }
+    .services-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; }
     .service-card { background: white; border: 2px solid #e9ecef; border-radius: 8px; padding: 15px; text-align: center; transition: transform .2s, box-shadow .2s; cursor: pointer; }
     .service-card:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-color: #007bff; }
     .brand-logo { width: 60px; height: 60px; margin: 0 auto 10px; }
     .brand-logo img { width: 100%; height: 100%; object-fit: contain; border-radius: 6px; }
-    .service-title { font-size: 1.2em; font-weight: bold; color: #007bff; margin-bottom: 6px; }
-    .service-description { color: #6c757d; font-size: 0.9em; margin-bottom: 10px; }
+    .service-title { font-size: 1.1rem; font-weight: bold; color: #007bff; margin-bottom: 6px; }
+    .service-description { color: #6c757d; font-size: 0.85rem; margin-bottom: 10px; }
     .service-link { color: #28a745; font-weight: bold; font-size: 0.9em; text-decoration: none; }
     .service-link:hover { text-decoration: underline; }
+    @media (max-width: 480px) {
+      body { padding: 10px; }
+      .container { padding: 1rem; }
+      h1 { font-size: 1.3rem; }
+      input, button { font-size: 0.9rem; padding: 0.6em; }
+      .service-title { font-size: 1rem; }
+      .service-description { font-size: 0.8rem; }
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>⏱️ Time & Parking Fee Calculator</h1>
-
-    <div class="input-group">
-      <label for="startDate">Enter Date:</label>
-      <input type="date" id="startDate" required>
-    </div>
-
-    <div class="input-group">
-      <label for="startTime">Enter Starting Time:</label>
-      <input type="time" id="startTime" required>
-    </div>
-
+    <div class="input-group"><label for="startDate">Enter Date:</label><input type="date" id="startDate" required></div>
+    <div class="input-group"><label for="startTime">Enter Starting Time:</label><input type="time" id="startTime" required></div>
     <button id="calculateBtn">Calculate</button>
     <button id="resetBtn" style="background:#6c757d;">Reset</button>
     <button class="toggle-btn" id="toggleAdvanced">Show Fee Options</button>
-
-    <!-- Advanced fee options -->
     <div class="advanced" id="advancedOptions">
-      <div class="input-group">
-        <label for="firstHours">First X hours:</label>
-        <input type="number" id="firstHours" min="1" value="3">
-      </div>
-      <div class="input-group">
-        <label for="firstPrice">Price for first X hours:</label>
-        <input type="number" id="firstPrice" min="0" value="50">
-      </div>
-      <div class="input-group">
-        <label for="succeedingHours">Succeeding block hours:</label>
-        <input type="number" id="succeedingHours" min="1" value="1">
-      </div>
-      <div class="input-group">
-        <label for="succeedingPrice">Price per succeeding block:</label>
-        <input type="number" id="succeedingPrice" min="0" value="20">
-      </div>
+      <div class="input-group"><label for="firstHours">First X hours:</label><input type="number" id="firstHours" min="1" value="3"></div>
+      <div class="input-group"><label for="firstPrice">Price for first X hours:</label><input type="number" id="firstPrice" min="0" value="50"></div>
+      <div class="input-group"><label for="succeedingHours">Succeeding block hours:</label><input type="number" id="succeedingHours" min="1" value="1"></div>
+      <div class="input-group"><label for="succeedingPrice">Price per succeeding block:</label><input type="number" id="succeedingPrice" min="0" value="20"></div>
     </div>
-
     <div class="result" id="result">
       <h3>Results</h3>
       <p><strong>Start Date:</strong> <span id="displayDate"></span></p>
@@ -93,155 +71,84 @@
       <p><strong>Elapsed Time:</strong> <span id="elapsed"></span></p>
       <p class="fee" id="feeRow" style="display:none;"><strong>Total Fee:</strong> ₱<span id="fee"></span></p>
     </div>
-
-    <!-- About Section -->
     <div class="about-section">
       <a href="#" class="about-title-link" onclick="toggleAbout(event)">Why I made this calculator</a>
       <div class="about-content" id="aboutContent">
-        <p>I once got overcharged at Festival Mall when a parking attendant “miscalculated” my stay. In a rush, I paid more than I should have. That experience showed me how easy it is to be taken advantage of, so I built this simple time tracker. Now I can always check the exact hours and minutes—no more convenient miscalculations.</p>
-        <p>If you’ve had a similar experience with a rogue parking attendant, or if this app helped you avoid being scammed, I’d appreciate your feedback.</p>
-        <a href="https://m.me/melissa.magpale.oostendorp" target="_blank" rel="noopener" class="fb-link">💬 Message me on Messenger</a>
+        <p>I once got overcharged at Festival Mall when a parking attendant “miscalculated” my stay...</p>
+        <p>If you’ve had a similar experience, I’d appreciate your feedback.</p>
+        <a href="https://m.me/melissa.magpale.oostendorp" target="_blank" class="fb-link">💬 Message me on Messenger</a>
       </div>
-      <div class="signature" id="signature">
-        <span class="signature-text">Melissa Oostendorp</span>
-      </div>
+      <div class="signature" id="signature"><span class="signature-text">Melissa Oostendorp</span></div>
     </div>
-
-    <!-- Services Section -->
     <div class="services-section">
       <div class="services-title">Explore Our Real Estate Services</div>
       <div class="services-container">
-         <div class="service-card" onclick="window.open('http://bfhomes.ph/listings/PARKLANE-PER/','_blank','noopener')">
-          <div class="brand-logo">
-                            <img src="./icon_property_recon.jpg" alt="bfhomes.ph Logo">
-                      </div>
-          <div class="service-title">House for Sale – BF Homes</div>
-          <div class="service-description">
-            Explore this featured property in Parklane, BF Homes Parañaque. See full details and photos.
-          </div>
-          <a href="http://bfhomes.ph/listings/PARKLANE-PER/" target="_blank" rel="noopener noreferrer" class="service-link" onclick="event.stopPropagation()">
-            View Listing
-          </a>
-        </div>
-        <div class="service-card" onclick="window.open('https://appraise.ph','_blank','noopener')">
-          <div class="brand-logo"><img src="https://appraise.ph/images/logo100.jpg" alt="Appraise.ph"></div>
-          <div class="service-title">Appraise.ph</div>
-          <div class="service-description">Professional property appraisal services in the Philippines.</div>
-          <a href="https://appraise.ph" target="_blank" class="service-link" onclick="event.stopPropagation()">Visit appraise.ph</a>
-        </div>
-        <div class="service-card" onclick="window.open('https://easton.ph','_blank','noopener')">
-          <div class="brand-logo"><img src="https://easton.ph/logos_eastonrecon.png" alt="Easton.ph"></div>
-          <div class="service-title">Easton.ph</div>
-          <div class="service-description">Your trusted real estate partner.</div>
-          <a href="https://easton.ph" target="_blank" class="service-link" onclick="event.stopPropagation()">Visit easton.ph</a>
-        </div>
-        <div class="service-card" onclick="window.open('https://titles.ph','_blank','noopener')">
-          <div class="brand-logo"><img src="https://titles.ph/logo-titlesph.jpg" alt="Titles.ph"></div>
-          <div class="service-title">Titles.ph</div>
-          <div class="service-description">Simplify your property title processes.</div>
-          <a href="https://titles.ph" target="_blank" class="service-link" onclick="event.stopPropagation()">Visit titles.ph</a>
-        </div>
+        <div class="service-card" onclick="window.open('http://bfhomes.ph/listings/PARKLANE-PER/','_blank')"><div class="brand-logo"><img src="./icon_property_recon.jpg" alt="bfhomes.ph Logo"></div><div class="service-title">House for Sale – BF Homes</div><div class="service-description">Featured property in Parklane, BF Homes Parañaque.</div></div>
+        <div class="service-card" onclick="window.open('https://appraise.ph','_blank')"><div class="brand-logo"><img src="https://appraise.ph/images/logo100.jpg" alt="Appraise.ph"></div><div class="service-title">Appraise.ph</div><div class="service-description">Professional property appraisal services.</div></div>
+        <div class="service-card" onclick="window.open('https://easton.ph','_blank')"><div class="brand-logo"><img src="https://easton.ph/logos_eastonrecon.png" alt="Easton.ph"></div><div class="service-title">Easton.ph</div><div class="service-description">Your trusted real estate partner.</div></div>
+        <div class="service-card" onclick="window.open('https://titles.ph','_blank')"><div class="brand-logo"><img src="https://titles.ph/logo-titlesph.jpg" alt="Titles.ph"></div><div class="service-title">Titles.ph</div><div class="service-description">Simplify property title processes.</div></div>
       </div>
     </div>
-
   </div>
-
   <script>
-    // Default date = local today
     document.addEventListener('DOMContentLoaded', function() {
       const now = new Date();
-      const year = now.getFullYear();
-      const month = String(now.getMonth() + 1).padStart(2, '0');
-      const day = String(now.getDate()).padStart(2, '0');
-      const today = `${year}-${month}-${day}`;
-      document.getElementById('startDate').value = today;
+      document.getElementById('startDate').value = now.toISOString().split('T')[0];
     });
-
-    document.getElementById('calculateBtn').addEventListener('click', function() {
+    document.getElementById('calculateBtn').onclick = function() {
       const startDate = document.getElementById('startDate').value;
       const startTime = document.getElementById('startTime').value;
       if (!startDate || !startTime) { alert("Enter date and time"); return; }
-
       const now = new Date();
       const [h, m] = startTime.split(":");
-      const [year, month, day] = startDate.split("-");
-      const start = new Date(parseInt(year), parseInt(month)-1, parseInt(day), parseInt(h), parseInt(m));
+      const [y, mo, d] = startDate.split("-");
+      const start = new Date(y, mo-1, d, h, m);
       let diff = now - start;
       if (diff < 0) diff += 24*60*60*1000;
-
-      const totalMinutes = Math.floor(diff / (1000*60));
-      const hours = Math.floor(totalMinutes/60);
-      const minutes = totalMinutes % 60;
-
+      const mins = Math.floor(diff/60000);
+      const hrs = Math.floor(mins/60);
+      const rem = mins % 60;
       document.getElementById('displayDate').textContent = startDate;
       document.getElementById('displayStart').textContent = formatTime(start);
-      document.getElementById('displayNow').textContent = now.toLocaleString([], {hour:'numeric',minute:'2-digit',hour12:true});
-      document.getElementById('elapsed').textContent = `${hours}h ${minutes}m`;
-
+      document.getElementById('displayNow').textContent = now.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
+      document.getElementById('elapsed').textContent = `${hrs}h ${rem}m`;
       const adv = document.getElementById('advancedOptions');
       if (adv.style.display === 'block') {
-        const firstHours = parseInt(document.getElementById('firstHours').value) || 0;
-        const firstPrice = parseFloat(document.getElementById('firstPrice').value) || 0;
-        const succHours = parseInt(document.getElementById('succeedingHours').value) || 1;
-        const succPrice = parseFloat(document.getElementById('succeedingPrice').value) || 0;
-
-        let fee = 0;
-        if (hours < firstHours || (hours === firstHours && minutes === 0)) {
-          fee = firstPrice;
-        } else {
-          fee = firstPrice;
-          const extraMinutes = totalMinutes - firstHours*60;
-          const blocks = Math.ceil(extraMinutes / (succHours*60));
-          fee += blocks * succPrice;
+        const fh = +document.getElementById('firstHours').value;
+        const fp = +document.getElementById('firstPrice').value;
+        const sh = +document.getElementById('succeedingHours').value;
+        const sp = +document.getElementById('succeedingPrice').value;
+        let fee = fp;
+        if (hrs >= fh || (hrs === fh && rem > 0)) {
+          const extra = mins - fh*60;
+          const blocks = Math.ceil(extra/(sh*60));
+          fee += blocks*sp;
         }
         document.getElementById('fee').textContent = fee.toFixed(2);
         document.getElementById('feeRow').style.display = 'block';
       } else {
         document.getElementById('feeRow').style.display = 'none';
       }
-
       document.getElementById('result').style.display = 'block';
-    });
-
-    document.getElementById('resetBtn').addEventListener('click', function() {
-      const now = new Date();
-      const year = now.getFullYear();
-      const month = String(now.getMonth() + 1).padStart(2, '0');
-      const day = String(now.getDate()).padStart(2, '0');
-      const today = `${year}-${month}-${day}`;
-      document.getElementById('startDate').value = today;
+    };
+    document.getElementById('resetBtn').onclick = function() {
       document.getElementById('startTime').value = "";
       document.getElementById('result').style.display = 'none';
-    });
-
-    document.getElementById('toggleAdvanced').addEventListener('click', function() {
+    };
+    document.getElementById('toggleAdvanced').onclick = function() {
       const adv = document.getElementById('advancedOptions');
-      if (adv.style.display === 'block') {
-        adv.style.display = 'none';
-        this.textContent = "Show Fee Options";
-      } else {
-        adv.style.display = 'block';
-        this.textContent = "Hide Fee Options";
-      }
-    });
-
-    function toggleAbout(event) {
-      event.preventDefault();
-      const content = document.getElementById('aboutContent');
-      const signature = document.getElementById('signature');
-      if (content.classList.contains('show')) {
-        content.classList.remove('show'); signature.classList.remove('show');
-      } else {
-        content.classList.add('show'); signature.classList.add('show');
-      }
+      adv.style.display = adv.style.display === 'block' ? 'none' : 'block';
+      this.textContent = adv.style.display === 'block' ? "Hide Fee Options" : "Show Fee Options";
+    };
+    function toggleAbout(e) {
+      e.preventDefault();
+      document.getElementById('aboutContent').classList.toggle('show');
+      document.getElementById('signature').classList.toggle('show');
     }
-
     function formatTime(d) {
-      const h = d.getHours();
-      const m = d.getMinutes().toString().padStart(2,"0");
-      const ampm = h >= 12 ? "PM" : "AM";
-      const displayH = (h % 12) || 12;
-      return `${displayH}:${m} ${ampm}`;
+      const h = d.getHours(), m = d.getMinutes().toString().padStart(2,"0");
+      const ampm = h>=12?"PM":"AM"; const dh=(h%12)||12;
+      return `${dh}:${m} ${ampm}`;
     }
   </script>
 </body>
